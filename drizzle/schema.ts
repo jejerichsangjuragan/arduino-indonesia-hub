@@ -25,9 +25,26 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+export const communityProjects = mysqlTable("community_projects", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerId: int("ownerId").notNull(),
+  title: varchar("title", { length: 180 }).notNull(),
+  description: text("description").notNull(),
+  level: mysqlEnum("level", ["Pemula", "Menengah", "Mahir"]).default("Pemula").notNull(),
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
+  moderatorNote: text("moderatorNote"),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+  moderatedAt: timestamp("moderatedAt"),
+  moderatedBy: int("moderatedBy"),
+});
+
+export type CommunityProject = typeof communityProjects.$inferSelect;
+export type InsertCommunityProject = typeof communityProjects.$inferInsert;
+
 export const storedFiles = mysqlTable("stored_files", {
   id: int("id").autoincrement().primaryKey(),
   ownerId: int("ownerId").notNull(),
+  projectId: int("projectId"),
   originalName: varchar("originalName", { length: 255 }).notNull(),
   storageKey: varchar("storageKey", { length: 512 }).notNull().unique(),
   url: varchar("url", { length: 768 }).notNull(),

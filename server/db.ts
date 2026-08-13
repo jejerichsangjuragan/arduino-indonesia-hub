@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertStoredFile, InsertUser, storedFiles, users } from "../drizzle/schema";
+import { CommunityProject, InsertCommunityProject, InsertStoredFile, InsertUser, communityProjects, storedFiles, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -96,12 +96,54 @@ export async function createStoredFile(file: InsertStoredFile) {
   return { id: Number(result[0].insertId), ...file };
 }
 
-export async function listStoredFiles(ownerId?: number) {
+export async function listStoredFiles(ownerId?: number, projectId?: number) {
   const db = await getDb();
   if (!db) return [];
-  if (ownerId !== undefined) {
-    return db.select().from(storedFiles).where(eq(storedFiles.ownerId, ownerId));
-  }
+  const filters = [ownerId === undefined ? undefined : eq(storedFiles.ownerId, ownerId), projectId === undefined ? undefined : eq(storedFiles.projectId, projectId)].filter(Boolean) as NonNullable<ReturnType<typeof and>>[];
+  if (filters.length > 0) return db.select().from(storedFiles).where(and(...filters));
   return db.select().from(storedFiles);
+}
+
+export async function createCommunityProject(project: InsertCommunityProject) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const result = await db.insert(communityProjects).values(project);
+  return { id: Number(result[0].insertId), ...project };
+}
+
+export async function listCommunityProjects(status?: CommunityProject["status"]) {
+  const db = await getDb();
+  if (!db) return [];
+  if (status) return db.select().from(communityProjects).where(eq(communityProjects.status, status));
+  return db.select().from(communityProjects);
+}
+
+export function moderationUpdateValues(status: CommunityProject["status"], moderatorNote: string | null, moderatedBy: number, moderatedAt = new Date()) {
+  return { status, moderatorNote, moderatedBy, moderatedAt };
+}
+
+export type ModerationRepository = {
+  updateProject: (id: number, values: ReturnType<typeof moderationUpdateValues>) => Promise<CommunityProject | undefined>;
+};
+
+export async function moderateProjectWithRepository(repository: ModerationRepository, id: number, status: CommunityProject["status"], moderatorNote: string | null, moderatedBy: number) {
+  return repository.updateProject(id, moderationUpdateValues(status, moderatorNote, moderatedBy));
+}
+
+function createDbModerationRepository(db: any): ModerationRepository {
+  return {
+    updateProject: async (id, values) => {
+      await db.update(communityProjects).set(values).where(eq(communityProjects.id, id));
+      const rows = await db.select().from(communityProjects).where(eq(communityProjects.id, id)).limit(1);
+      return rows[0];
+    },
+  };
+}
+
+export async function updateCommunityProjectStatus(id: number, status: CommunityProject["status"], moderatorNote: string | null, moderatedBy: number, repository?: ModerationRepository) {
+  const db = repository ? null : await getDb();
+  if (!repository && !db) throw new Error("Database is not available");
+  const activeRepository = repository ?? createDbModerationRepository(db);
+  return moderateProjectWithRepository(activeRepository, id, status, moderatorNote, moderatedBy);
 }
 
