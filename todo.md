@@ -28,7 +28,7 @@
 - [x] Mengimplementasikan query dan tampilan file pendukung per proyek pada panel moderasi.
 - [x] Mengubah halaman publik proyek agar mengambil data approved-only dari tRPC.
 - [x] Menambahkan test mutation moderasi untuk status, catatan, waktu, dan moderator.
-- [ ] Menyimpan checkpoint final setelah seluruh gap moderasi tervalidasi.
+- [x] Menyimpan checkpoint final setelah seluruh gap moderasi tervalidasi.
 
 # Moderation Follow-up Gaps
 
