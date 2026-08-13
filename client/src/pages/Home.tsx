@@ -1,25 +1,26 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+// Design note: Sirkuit Editorial — offset hero composition, blueprint texture, technical rails, and purposeful cyan/orange signals.
+import { ArrowRight, ArrowUpRight, Bot, CircuitBoard, Code2, Cpu, MessageCircle, PackageCheck, Play, Sparkles, Zap } from "lucide-react";
+import { Link } from "wouter";
+import { projects, tutorials } from "@/lib/content";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const pillars = [
+  { icon: CircuitBoard, number: "01", title: "Tutorial langkah demi langkah", text: "Dari komponen pertama sampai robot yang siap diuji di lantai." },
+  { icon: Code2, number: "02", title: "Kode & skematik gratis", text: "Buka, salin, modifikasi. Semua build dimulai dari dokumentasi yang jelas." },
+  { icon: MessageCircle, number: "03", title: "Komunitas & forum", text: "Tanya saat buntu, bagikan saat berhasil, dan tumbuh bareng builder lain." },
+  { icon: PackageCheck, number: "04", title: "Toko komponen resmi", text: "Komponen yang pas untuk BOM tutorial, dikurasi untuk eksperimen nyata." },
+];
+
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  return <div>
+    <section className="hero-shell overflow-hidden border-b border-border">
+      <div className="container relative grid min-h-[650px] items-center gap-12 py-16 lg:grid-cols-[.88fr_1.12fr] lg:py-20">
+        <div className="relative z-10 max-w-xl animate-rise"><p className="eyebrow mb-6"><span className="signal-dot" /> Arduino Education Hub / ID</p><h1 className="display-title">Bangun robot impianmu <em>bersama</em> Arduino Indonesia.</h1><p className="mt-7 max-w-lg text-lg leading-8 text-muted-foreground">Ruang belajar, proyek, dan komponen untuk mengubah rasa penasaran menjadi mesin yang benar-benar bergerak.</p><div className="mt-9 flex flex-wrap gap-3"><Link href="/tutorials" className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 active:scale-95">Mulai Belajar <ArrowRight className="ml-2 size-4" /></Link><Link href="/shop" className="inline-flex items-center rounded-full border border-foreground/15 bg-background px-6 py-3.5 text-sm font-bold transition-all hover:-translate-y-1 hover:border-primary hover:text-primary active:scale-95">Lihat Kit Robot <PackageCheck className="ml-2 size-4" /></Link></div><div className="mt-12 flex items-center gap-8 border-t border-border pt-6"><div><strong className="text-2xl font-extrabold tracking-tight">48+</strong><p className="mt-1 text-xs text-muted-foreground">tutorial praktis</p></div><div><strong className="text-2xl font-extrabold tracking-tight">120+</strong><p className="mt-1 text-xs text-muted-foreground">build komunitas</p></div><div><strong className="text-2xl font-extrabold tracking-tight">1 ruang</strong><p className="mt-1 text-xs text-muted-foreground">untuk mulai</p></div></div></div>
+        <div className="relative lg:-mr-24 lg:translate-x-4"><div className="hero-art-wrap"><img src="/manus-storage/arduino-hero-editorial_f7f0af40.png" alt="Robot Arduino di meja kerja maker" className="hero-art" /><div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-white/20 bg-graphite/80 px-3 py-2 text-[10px] font-bold tracking-[.12em] text-white backdrop-blur-md"><span className="size-2 rounded-full bg-orange" /> LIVE BUILD LOG</div><div className="absolute bottom-5 right-5 max-w-[190px] rounded-2xl border border-white/20 bg-graphite/85 p-4 text-white backdrop-blur-md"><p className="eyebrow text-orange">Field note / 001</p><p className="mt-2 text-sm font-semibold leading-5">“Prototipe pertama tidak harus sempurna. Harus mulai bergerak.”</p></div></div><div className="hero-index">A / 01</div></div>
+      </div>
+    </section>
+    <section className="container py-20"><div className="section-heading"><div><p className="eyebrow">01 / Start here</p><h2 className="section-title">Satu tempat untuk <span>semua langkah.</span></h2></div><p className="max-w-sm text-sm leading-7 text-muted-foreground">Baca, rakit, uji, lalu bagikan. Ekosistem Arduino Indonesia dirancang mengikuti ritme belajar yang nyata.</p></div><div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{pillars.map((pillar, i) => <article key={pillar.number} className="pillar-card animate-rise" style={{ animationDelay: `${i * 50}ms` }}><div className="flex items-start justify-between"><span className="icon-box"><pillar.icon className="size-5" /></span><span className="eyebrow text-muted-foreground">{pillar.number}</span></div><h3 className="mt-8 text-lg font-extrabold tracking-tight">{pillar.title}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{pillar.text}</p><ArrowRight className="mt-7 size-4 text-primary transition-transform group-hover:translate-x-1" /></article>)}</div></section>
+    <section className="border-y border-border bg-muted/35 py-20"><div className="container"><div className="section-heading"><div><p className="eyebrow">02 / Community builds</p><h2 className="section-title">Lihat apa yang sedang <span>dibangun.</span></h2></div><Link href="/projects" className="inline-flex items-center text-sm font-bold text-primary">Semua proyek <ArrowRight className="ml-2 size-4" /></Link></div><div className="mt-12 grid gap-5 lg:grid-cols-[1.18fr_.82fr]">{projects.map((project, i) => <Link href="/projects" key={project.id} className={`project-card group ${i === 0 ? "lg:row-span-2" : ""}`}><img src={project.image} alt={project.title} /><div className="project-overlay" /><div className="absolute inset-x-0 bottom-0 z-10 p-6 text-white"><div className="mb-3 flex items-center justify-between"><span className="eyebrow text-orange">{project.label}</span><span className="rounded-full border border-white/30 px-2.5 py-1 text-[10px] font-bold">{project.level}</span></div><h3 className="text-2xl font-extrabold tracking-tight">{project.title}</h3><p className="mt-2 max-w-md text-sm leading-6 text-white/75">{project.description}</p><div className="mt-5 flex items-center gap-2 text-xs font-bold">Buka build log <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" /></div></div></Link>)}</div></div></section>
+    <section className="container py-20"><div className="section-heading"><div><p className="eyebrow">03 / Learn next</p><h2 className="section-title">Tutorial yang sedang <span>ramai dirakit.</span></h2></div><Link href="/tutorials" className="inline-flex items-center text-sm font-bold text-primary">Lihat semua tutorial <ArrowRight className="ml-2 size-4" /></Link></div><div className="mt-10 divide-y divide-border border-y border-border">{tutorials.slice(0, 4).map((tutorial, i) => <Link href="/tutorials" key={tutorial.id} className="tutorial-row group"><span className="eyebrow w-14 text-muted-foreground">0{i + 1}</span><div className="min-w-0 flex-1"><div className="mb-2 flex flex-wrap items-center gap-2"><span className="tag">{tutorial.category}</span><span className="text-xs text-muted-foreground">{tutorial.difficulty}</span></div><h3 className="truncate text-base font-extrabold tracking-tight sm:text-lg">{tutorial.title}</h3></div><span className="hidden text-xs text-muted-foreground sm:block">{tutorial.readTime}</span><ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" /></Link>)}</div></section>
+    <section className="container pb-24"><div className="cta-panel"><div className="relative z-10 max-w-xl"><p className="eyebrow text-orange">Build something real</p><h2 className="mt-4 text-3xl font-extrabold tracking-[-.04em] text-white sm:text-5xl">Komponen pertama adalah keputusan untuk mulai.</h2><p className="mt-5 max-w-lg leading-7 text-white/65">Pilih kit, ikuti tutorial, dan biarkan eksperimen berikutnya membawamu lebih jauh.</p><Link href="/shop" className="mt-8 inline-flex items-center rounded-full bg-orange px-5 py-3 text-sm font-bold text-graphite transition-transform hover:-translate-y-1 active:scale-95">Pilih kit pertamamu <ArrowRight className="ml-2 size-4" /></Link></div><div className="absolute -right-12 -top-16 hidden size-72 rounded-full border border-primary/40 lg:block"><div className="absolute inset-8 rounded-full border border-primary/40"><div className="absolute inset-16 rounded-full bg-primary/20" /></div></div><div className="absolute bottom-7 right-8 hidden items-center gap-2 text-xs text-white/50 lg:flex"><Zap className="size-4 text-orange" /> SIGNAL READY / 100%</div></div></section>
+  </div>;
 }
