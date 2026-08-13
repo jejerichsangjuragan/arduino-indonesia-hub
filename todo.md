@@ -10,4 +10,4 @@
 - [x] Menjalankan typecheck, build, dan pengujian alur frontend.
 - [x] Menyimpan checkpoint final dan mendokumentasikan konfigurasi lanjutan.
 - [x] Tambahkan dokumentasi konfigurasi lanjutan untuk File Storage, auth, migration, batas file, dan deployment.
-- [ ] Simpan checkpoint baru setelah integrasi full-stack dan File Storage selesai tervalidasi.
+- [x] Simpan checkpoint baru setelah integrasi full-stack dan File Storage selesai tervalidasi.
