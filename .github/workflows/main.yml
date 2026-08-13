@@ -43,7 +43,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Jika folder build di client/dist, ubah menjadi './client/dist'
+          # Ubah ke ./dist jika hasil build langsung ke root,
+          # atau ./client/dist jika hasil build ada di dalam folder client
+          path: './dist' 
 
       - name: Deploy to GitHub Pages
         id: deployment
