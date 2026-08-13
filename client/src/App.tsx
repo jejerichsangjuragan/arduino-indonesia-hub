@@ -10,8 +10,8 @@ import Tutorials from "./pages/Tutorials";
 import Projects from "./pages/Projects";
 import Shop from "./pages/Shop";
 import SiteLayout from "./components/SiteLayout";
-
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return <Switch><Route path="/" component={Home} /><Route path="/tutorials" component={Tutorials} /><Route path="/projects" component={Projects} /><Route path="/shop" component={Shop} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>;
 }
 
